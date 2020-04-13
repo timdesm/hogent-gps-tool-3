@@ -74,13 +74,13 @@ namespace Hogent_GPS_Project___Tool_3
                         MenuManager.case3();
                         break;
                     case "4":
-
+                        MenuManager.case4();
                         break;
                     case "5":
-
+                        MenuManager.case5();
                         break;
                     case "6":
-
+                        MenuManager.case6();
                         break;
                     case "7":
 

@@ -28,7 +28,12 @@ namespace Hogent_GPS_Project___Tool_3
             con.Open();
             using MySqlDataReader rdr = cmd.ExecuteReader();
             if (rdr.Read())
-                return rdr.GetInt16("id");
+            {
+                int r = rdr.GetInt16("id");
+                con.Dispose();
+                return r;
+            }
+            con.Dispose();
             return 0;
         }
 
@@ -40,11 +45,16 @@ namespace Hogent_GPS_Project___Tool_3
             con.Open();
             using MySqlDataReader rdr = cmd.ExecuteReader();
             if (rdr.Read())
-                return rdr.GetString("name");
+            {
+                String r = rdr.GetString("name");
+                con.Dispose();
+                return r;
+            }
+            con.Dispose();
             return "NULL";
         }
 
-        public static int getGemeenteCount(int state)
+        public static int getCityCount(int state)
         {
             MySqlConnection con = Program.db.getConnection();
             using var cmd = DatabaseUtil.CommandExecutor(con, "SELECT COUNT(*) FROM gps_cities WHERE state = @state");
@@ -52,7 +62,12 @@ namespace Hogent_GPS_Project___Tool_3
             con.Open();
             using MySqlDataReader rdr = cmd.ExecuteReader();
             if (rdr.Read())
-                return rdr.GetInt16(0);
+            {
+                int r = rdr.GetInt16(0);
+                con.Dispose();
+                return r;
+            }
+            con.Dispose();
             return 0;
         }
 
@@ -78,7 +93,12 @@ namespace Hogent_GPS_Project___Tool_3
             con.Open();
             using MySqlDataReader rdr = cmd.ExecuteReader();
             if (rdr.Read())
-                return rdr.GetInt16("id");
+            {
+                int r = rdr.GetInt16("id");
+                con.Dispose();
+                return r;
+            }
+            con.Dispose();
             return 0;
         }
 
@@ -90,8 +110,144 @@ namespace Hogent_GPS_Project___Tool_3
             con.Open();
             using MySqlDataReader rdr = cmd.ExecuteReader();
             if (rdr.Read())
-                return rdr.GetString("name");
+            {
+                String r = rdr.GetString("name");
+                con.Close();
+                return r;
+            }
+            con.Close();
             return "NULL";
+        }
+
+        public static int getStreetCount(int city)
+        {
+            MySqlConnection con = Program.db.getConnection();
+            using var cmd = DatabaseUtil.CommandExecutor(con, "SELECT COUNT(*) FROM gps_streets WHERE city = @city");
+            cmd.Parameters.AddWithValue("@city", city);
+            con.Open();
+            using MySqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.Read())
+            {
+                int r = rdr.GetInt16(0);
+                con.Dispose();
+                return r;
+            }
+            con.Dispose();
+            return 0;
+        }
+
+        public static Dictionary<int, string> getStreetList(int city)
+        {
+            Dictionary<int, String> cities = new Dictionary<int, string>();
+
+            MySqlConnection con = Program.db.getConnection();
+            using var cmd = DatabaseUtil.CommandExecutor(con, "SELECT * FROM gps_streets WHERE city = @city");
+            cmd.Parameters.AddWithValue("@state", city);
+            con.Open();
+            using MySqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+                cities.Add(rdr.GetInt16("id"), rdr.GetString("name"));
+            return cities;
+        }
+
+        public static Dictionary<int, string> getStreetCityList(String street)
+        {
+            Dictionary<int, String> cities = new Dictionary<int, string>();
+
+            MySqlConnection con = Program.db.getConnection();
+            using var cmd = DatabaseUtil.CommandExecutor(con, "SELECT * FROM gps_streets WHERE LOWER(name) = @name");
+            cmd.Parameters.AddWithValue("@name", street.ToLower());
+            con.Open();
+            using MySqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+                cities.Add(rdr.GetInt16("city"), getCityName(rdr.GetInt16("city")));
+            return cities;
+        }
+
+        public static String getStreetName(int street)
+        {
+            MySqlConnection con = Program.db.getConnection();
+            using var cmd = DatabaseUtil.CommandExecutor(con, "SELECT * FROM gps_streets WHERE id = @id");
+            cmd.Parameters.AddWithValue("@id", street);
+            con.Open();
+            using MySqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.Read())
+            {
+                String r = rdr.GetString("name");
+                con.Dispose();
+                return r;
+            }
+            con.Dispose();
+            return "NULL";
+        }
+
+        public static int getStreetID(String street, int city)
+        {
+            MySqlConnection con = Program.db.getConnection();
+            using var cmd = DatabaseUtil.CommandExecutor(con, "SELECT * FROM gps_streets WHERE LOWER(name)='@name' AND city=@city");
+            cmd.Parameters.AddWithValue("@name", street);
+            cmd.Parameters.AddWithValue("@city", city);
+            con.Open();
+            using MySqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.Read())
+            {
+                int r = rdr.GetInt16("id");
+                con.Dispose();
+                return r;
+            }
+            con.Dispose();
+            return 0;
+        }
+
+        public static int getStreetCityID(int street)
+        {
+            MySqlConnection con = Program.db.getConnection();
+            using var cmd = DatabaseUtil.CommandExecutor(con, "SELECT * FROM gps_streets WHERE id = @id");
+            cmd.Parameters.AddWithValue("@id", street);
+            con.Open();
+            using MySqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.Read())
+            {
+                int r = rdr.GetInt16("city");
+                con.Dispose();
+                return r;
+            }
+            con.Dispose();
+            return 0;
+        }
+
+        public static Double getStreetLength(int street)
+        {
+            MySqlConnection con = Program.db.getConnection();
+            using var cmd = DatabaseUtil.CommandExecutor(con, "SELECT * FROM gps_streets WHERE id = @id");
+            cmd.Parameters.AddWithValue("@id", street);
+            con.Open();
+            using MySqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.Read())
+            {
+                String r = rdr.GetString("length");
+                con.Dispose();
+                return Double.Parse(r.Replace(".", ","));
+            }
+            con.Dispose();
+            return 0.0;
+        }
+
+        public static String getStreetMapString(int street)
+        {
+            MySqlConnection con = Program.db.getConnection();
+            using var cmd = DatabaseUtil.CommandExecutor(con, "SELECT * FROM gps_streets WHERE id = @id");
+            cmd.Parameters.AddWithValue("@id", street);
+            con.Open();
+            using MySqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.Read())
+            {
+                String r = rdr.GetString("map");
+                con.Dispose();
+                return r;
+            }
+            con.Dispose();
+            return "{}";
         }
     }
 }
