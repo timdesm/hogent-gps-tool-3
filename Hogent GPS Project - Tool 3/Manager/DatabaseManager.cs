@@ -16,7 +16,7 @@ namespace Hogent_GPS_Project___Tool_3
             con.Open();
             using MySqlDataReader rdr = cmd.ExecuteReader();
             while (rdr.Read())
-                states.Add(rdr.GetInt16("id"), rdr.GetString("name"));
+                states.Add(rdr.GetInt32("id"), rdr.GetString("name"));
             return states;
         }
 
@@ -29,7 +29,7 @@ namespace Hogent_GPS_Project___Tool_3
             using MySqlDataReader rdr = cmd.ExecuteReader();
             if (rdr.Read())
             {
-                int r = rdr.GetInt16("id");
+                int r = rdr.GetInt32("id");
                 con.Dispose();
                 return r;
             }
@@ -63,7 +63,7 @@ namespace Hogent_GPS_Project___Tool_3
             using MySqlDataReader rdr = cmd.ExecuteReader();
             if (rdr.Read())
             {
-                int r = rdr.GetInt16(0);
+                int r = rdr.GetInt32(0);
                 con.Dispose();
                 return r;
             }
@@ -81,7 +81,7 @@ namespace Hogent_GPS_Project___Tool_3
             con.Open();
             using MySqlDataReader rdr = cmd.ExecuteReader();
             while (rdr.Read())
-                cities.Add(rdr.GetInt16("id"), rdr.GetString("name"));
+                cities.Add(rdr.GetInt32("id"), rdr.GetString("name"));
             return cities;
         }
 
@@ -94,7 +94,7 @@ namespace Hogent_GPS_Project___Tool_3
             using MySqlDataReader rdr = cmd.ExecuteReader();
             if (rdr.Read())
             {
-                int r = rdr.GetInt16("id");
+                int r = rdr.GetInt32("id");
                 con.Dispose();
                 return r;
             }
@@ -128,7 +128,7 @@ namespace Hogent_GPS_Project___Tool_3
             using MySqlDataReader rdr = cmd.ExecuteReader();
             if (rdr.Read())
             {
-                int r = rdr.GetInt16(0);
+                int r = rdr.GetInt32(0);
                 con.Dispose();
                 return r;
             }
@@ -142,11 +142,11 @@ namespace Hogent_GPS_Project___Tool_3
 
             MySqlConnection con = Program.db.getConnection();
             using var cmd = DatabaseUtil.CommandExecutor(con, "SELECT * FROM gps_streets WHERE city = @city");
-            cmd.Parameters.AddWithValue("@state", city);
+            cmd.Parameters.AddWithValue("@city", city);
             con.Open();
             using MySqlDataReader rdr = cmd.ExecuteReader();
             while (rdr.Read())
-                cities.Add(rdr.GetInt16("id"), rdr.GetString("name"));
+                cities.Add(rdr.GetInt32("id"), rdr.GetString("name"));
             return cities;
         }
 
@@ -160,7 +160,7 @@ namespace Hogent_GPS_Project___Tool_3
             con.Open();
             using MySqlDataReader rdr = cmd.ExecuteReader();
             while (rdr.Read())
-                cities.Add(rdr.GetInt16("city"), getCityName(rdr.GetInt16("city")));
+                cities.Add(rdr.GetInt32("city"), getCityName(rdr.GetInt16("city")));
             return cities;
         }
 
@@ -191,7 +191,7 @@ namespace Hogent_GPS_Project___Tool_3
             using MySqlDataReader rdr = cmd.ExecuteReader();
             if (rdr.Read())
             {
-                int r = rdr.GetInt16("id");
+                int r = rdr.GetInt32("id");
                 con.Dispose();
                 return r;
             }
@@ -208,7 +208,7 @@ namespace Hogent_GPS_Project___Tool_3
             using MySqlDataReader rdr = cmd.ExecuteReader();
             if (rdr.Read())
             {
-                int r = rdr.GetInt16("city");
+                int r = rdr.GetInt32("city");
                 con.Dispose();
                 return r;
             }
@@ -248,6 +248,54 @@ namespace Hogent_GPS_Project___Tool_3
             }
             con.Dispose();
             return "{}";
+        }
+
+        public static int getTotalStates()
+        {
+            MySqlConnection con = Program.db.getConnection();
+            using var cmd = DatabaseUtil.CommandExecutor(con, "SELECT COUNT(*) FROM gps_states");
+            con.Open();
+            using MySqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.Read())
+            {
+                int r = rdr.GetInt32(0);
+                con.Dispose();
+                return r;
+            }
+            con.Dispose();
+            return 0;
+        }
+
+        public static int getTotalCities()
+        {
+            MySqlConnection con = Program.db.getConnection();
+            using var cmd = DatabaseUtil.CommandExecutor(con, "SELECT COUNT(*) FROM gps_cities");
+            con.Open();
+            using MySqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.Read())
+            {
+                int r = rdr.GetInt16(0);
+                con.Dispose();
+                return r;
+            }
+            con.Dispose();
+            return 0;
+        }
+
+        public static int getTotalStreets()
+        {
+            MySqlConnection con = Program.db.getConnection();
+            using var cmd = DatabaseUtil.CommandExecutor(con, "SELECT COUNT(*) FROM gps_streets");
+            con.Open();
+            using MySqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.Read())
+            {
+                int r = rdr.GetInt32(0);
+                con.Dispose();
+                return r;
+            }
+            con.Dispose();
+            return 0;
         }
     }
 }

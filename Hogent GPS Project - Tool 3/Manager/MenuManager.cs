@@ -10,17 +10,17 @@ namespace Hogent_GPS_Project___Tool_3
         public static void case1()
         {
             Program.printHeader();
-            Console.WriteLine("----- [PROVINCIE LIST] -----");
+            Console.WriteLine("----- [STATE LIST] -----");
             Console.WriteLine(" ");
             Console.WriteLine("Loading data...");
             Dictionary<int, String> states = DatabaseManager.GetStateList();
             Program.printHeader();
-            Console.WriteLine("----- [PROVINCIE LIST] -----");
+            Console.WriteLine("----- [STATE LIST] -----");
             Console.WriteLine(" ");
             foreach (int key in states.Keys)
                 Console.WriteLine("[ID: " + key + "] " + states[key]);
             Console.WriteLine("");
-            Console.Write("Press ENTER to continue...");
+            Console.Write("Press ENTER to go back...");
             Console.ReadLine();
         }
 
@@ -30,7 +30,7 @@ namespace Hogent_GPS_Project___Tool_3
             while (runLoop)
             {
                 Program.printHeader();
-                Console.WriteLine("----- [PROVINCIE INFO] -----");
+                Console.WriteLine("----- [STATE INFO] -----");
                 Console.WriteLine("[1] Search on Name");
                 Console.WriteLine("[2] Search on ID");
                 Console.WriteLine("[3] Go back");
@@ -41,7 +41,7 @@ namespace Hogent_GPS_Project___Tool_3
                 {
                     case "1":
                         Program.printHeader();
-                        Console.WriteLine("----- [PROVINCIE INFO] -----");
+                        Console.WriteLine("----- [STATE INFO] -----");
                         Console.Write("Search on Name: ");
                         String NameSearch = Console.ReadLine();
                         int ID = DatabaseManager.getStateID(NameSearch);
@@ -50,7 +50,7 @@ namespace Hogent_GPS_Project___Tool_3
                             String name = DatabaseManager.getStateName(ID);
                             int count = DatabaseManager.getCityCount(ID);
                             Program.printHeader();
-                            Console.WriteLine("----- [PROVINCIE INFO] -----");
+                            Console.WriteLine("----- [STATE INFO] -----");
                             Console.WriteLine("ID: " + ID);
                             Console.WriteLine("Name: " + name);
                             Console.WriteLine("Cities: " + count);
@@ -60,13 +60,13 @@ namespace Hogent_GPS_Project___Tool_3
                         }
                         else
                         {
-                            Console.Write("No provincie found with that name, press ENTER to continue...");
+                            Console.Write("No state found with that name, press ENTER to continue...");
                             Console.ReadLine();
                         }
                         break;
                     case "2":
                         Program.printHeader();
-                        Console.WriteLine("----- [PROVINCIE INFO] -----");
+                        Console.WriteLine("----- [STATE INFO] -----");
                         Console.Write("Search on ID: ");
                         int IdSearch = int.Parse(Console.ReadLine());
 
@@ -76,7 +76,7 @@ namespace Hogent_GPS_Project___Tool_3
                         {
                             int count = DatabaseManager.getCityCount(IdSearch);
                             Program.printHeader();
-                            Console.WriteLine("----- [PROVINCIE INFO] -----");
+                            Console.WriteLine("----- [STATE INFO] -----");
                             Console.WriteLine("ID: " + IdSearch);
                             Console.WriteLine("Name: " + name2);
                             Console.WriteLine("Cities: " + count);
@@ -86,7 +86,7 @@ namespace Hogent_GPS_Project___Tool_3
                         }
                         else
                         {
-                            Console.Write("No provincie found with that ID, press ENTER to continue...");
+                            Console.Write("No state found with that ID, press ENTER to continue...");
                             Console.ReadLine();
                         }
                         break;
@@ -386,7 +386,7 @@ namespace Hogent_GPS_Project___Tool_3
                                     Console.WriteLine("----- [STREET INFO] -----");
                                     Console.WriteLine("ID: " + StreetID);
                                     Console.WriteLine("Name: " + DatabaseManager.getStreetName(StreetID));
-                                    Console.WriteLine("Length: " + DatabaseManager.getStreetLength(StreetID)  + "m");
+                                    Console.WriteLine("Length: " + DatabaseManager.getStreetLength(StreetID) + "m");
                                     Console.WriteLine("Gemeente: " + cities[cityID]);
                                     subCase6(StreetID);
                                     Console.WriteLine("");
@@ -520,6 +520,25 @@ namespace Hogent_GPS_Project___Tool_3
                         break;
                 }
             }
+        }
+
+        public static void case7()
+        {
+            Program.printHeader();
+            Console.WriteLine("----- [DATABASE INFO] -----");
+            Console.WriteLine("Host: " + Program.mysql_host);
+            Console.Write("Status: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Connected");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(" ");
+            Console.WriteLine("Total states: " + DatabaseManager.getTotalStates());
+            Console.WriteLine("Total cities: " + DatabaseManager.getTotalCities());
+            Console.WriteLine("Total streets: " + DatabaseManager.getTotalStreets());
+
+            Console.WriteLine("");
+            Console.Write("Press ENTER to go back...");
+            Console.ReadLine();
         }
     }
 }

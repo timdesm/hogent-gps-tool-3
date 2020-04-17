@@ -45,20 +45,22 @@ namespace Hogent_GPS_Project___Tool_3
                 }
             }
 
-            while (true)
+            Boolean runApp = true;
+            while (runApp)
             {
                 printHeader();
                 Console.WriteLine("Database connected");
                 Console.WriteLine(" ");
 
                 Console.WriteLine("----- [MENU] -----");
-                Console.WriteLine("[1] PROVINCIE LIST");
-                Console.WriteLine("[2] PROVINCIE INFO");
+                Console.WriteLine("[1] STATE LIST");
+                Console.WriteLine("[2] STATE INFO");
                 Console.WriteLine("[3] CITY LIST");
                 Console.WriteLine("[4] CITY INFO");
                 Console.WriteLine("[5] STREET LIST");
                 Console.WriteLine("[6] STREET INFO");
-                Console.WriteLine("[7] DATABASE STATUS");
+                Console.WriteLine("[7] DATABASE INFO");
+                Console.WriteLine("[8] CLOSE APPLICATION");
                 Console.Write("Selection: ");
                 String selection = Console.ReadLine();
 
@@ -83,7 +85,10 @@ namespace Hogent_GPS_Project___Tool_3
                         MenuManager.case6();
                         break;
                     case "7":
-
+                        MenuManager.case7();
+                        break;
+                    case "8":
+                        runApp = false;
                         break;
                     default:
                         Console.Write("Wrong selection input, press ENTER to continue...");
