@@ -184,7 +184,7 @@ namespace Hogent_GPS_Project___Tool_3
         public static int getStreetID(String street, int city)
         {
             MySqlConnection con = Program.db.getConnection();
-            using var cmd = DatabaseUtil.CommandExecutor(con, "SELECT * FROM gps_streets WHERE LOWER(name)='@name' AND city=@city");
+            using var cmd = DatabaseUtil.CommandExecutor(con, "SELECT * FROM gps_streets WHERE LOWER(name) = @name AND city = @city");
             cmd.Parameters.AddWithValue("@name", street);
             cmd.Parameters.AddWithValue("@city", city);
             con.Open();

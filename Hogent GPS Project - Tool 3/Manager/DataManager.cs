@@ -60,6 +60,7 @@ namespace Hogent_GPS_Project___Tool_3
         }
 
         public static void printMap(Dictionary<JsonKnoop, IList<JsonSegment>> map) {
+            Console.WriteLine("----- [MAP] -----                                                         ");
             Console.WriteLine("Total nodes: " + map.Keys.Count);
             Console.WriteLine("Total segments: " + map.Sum(x => x.Value.Count));
             foreach (JsonKnoop node in map.Keys)
@@ -75,7 +76,7 @@ namespace Hogent_GPS_Project___Tool_3
 
         public static void printSegment(JsonSegment segment)
         {
-            Console.WriteLine($"    [Segment:{segment.ID},start:{segment.Start.ID},end:{segment.End.ID}");
+            Console.WriteLine($"    [Segment:{segment.ID},start:{segment.Start.ID},end:{segment.End.ID}]");
             foreach (JsonPunt point in segment.Points)
                 printPoint(point);
         }

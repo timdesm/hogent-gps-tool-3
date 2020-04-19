@@ -367,8 +367,9 @@ namespace Hogent_GPS_Project___Tool_3
 
                         if (cities.Count > 1)
                         {
+                            Program.printHeader();
                             Console.WriteLine("----- [STREET INFO] -----");
-                            Console.Write("Found " + cities.Count + " steets with that name");
+                            Console.WriteLine("Found " + cities.Count + " steets with that name");
 
                             foreach (int key in cities.Keys)
                                 Console.WriteLine($"[ID: {key}] {cities[key]}");
@@ -407,9 +408,11 @@ namespace Hogent_GPS_Project___Tool_3
                                 if (cities.ContainsValue(CitySearch))
                                 {
                                     int cityID2 = cities.FirstOrDefault(x => x.Value.ToLower() == CitySearch.ToLower()).Key;
-
                                     int StreetID = DatabaseManager.getStreetID(NameSearch, cityID2);
+
                                     Program.printHeader();
+                                    Console.WriteLine("Test:" + cityID2);
+
                                     Console.WriteLine("----- [STREET INFO] -----");
                                     Console.WriteLine("ID: " + StreetID);
                                     Console.WriteLine("Name: " + DatabaseManager.getStreetName(StreetID));
